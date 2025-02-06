@@ -1,0 +1,32 @@
+# Dependency directories
+node_modules/
+frontend/node_modules/
+go-backend/vendor/
+
+# Build outputs
+build/
+dist/
+frontend/build/
+
+# Environment files
+.env
+*.env
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Compiled files
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Temporary files
+.DS_Store
+Thumbs.db
