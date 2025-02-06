@@ -1,4 +1,4 @@
-module github.com/niladridas/gentle-story-summarizer
+module github.com/Gravity-Blog/gentle-story-summ
 
 go 1.21
 
