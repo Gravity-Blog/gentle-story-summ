@@ -8,3 +8,5 @@
    ```
 
 2. Open the application in your browser at [http://localhost:3000](http://localhost:3000).
+
+![App Screenshot](https://github.com/Gravity-Blog/gentle-story-summ/blob/main/frontend/public/Screenshot.png)
