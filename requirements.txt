@@ -1,11 +1,11 @@
 # Backend Dependencies
 flask==2.3.2
-flask-cors==4.0.0
+flask-cors==4.0.2
 openai==0.27.8
 python-dotenv==1.0.0
 
 # Text Processing
-nltk==3.8.1
+nltk==3.9
 
 # Brightness Control
 screen-brightness-control==0.9.0
