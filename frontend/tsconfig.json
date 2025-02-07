@@ -18,9 +18,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": [
+      "jest",
+      "@testing-library/jest-dom",
+      "@testing-library/react",
+      "web-vitals"
+    ]
   },
   "include": [
-    "src"
+    "src",
+    "src/global.d.ts"
   ]
 }

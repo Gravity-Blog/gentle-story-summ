@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/generative-ai-go/genai"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 	"google.golang.org/api/option"
 )
@@ -24,10 +25,18 @@ type SummarizationResponse struct {
 	TriggerWarnings []string `json:"triggerWarnings"`
 }
 
+func init() {
+	// Load .env file from the project root
+	if err := godotenv.Load("../.env"); err != nil {
+		log.Println("No .env file found. Using system environment variables.")
+	}
+}
+
 func main() {
 	// Initialize Gin router
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.DebugMode)
 	router := gin.New()
+	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
 	// CORS configuration
@@ -36,6 +45,7 @@ func main() {
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders:   []string{"Origin", "Content-Type", "Accept"},
 		AllowCredentials: true,
+		Debug:            true,
 	})
 
 	// Health check endpoint
@@ -47,10 +57,17 @@ func main() {
 		})
 	})
 
+	// Log all registered routes
+	for _, routeInfo := range router.Routes() {
+		log.Printf("Registered Route: %s %s", routeInfo.Method, routeInfo.Path)
+	}
+
 	// Summarization endpoint
 	router.POST("/api/summarize", func(c *gin.Context) {
+		log.Printf("Received summarization request")
 		var req SummarizationRequest
 		if err := c.ShouldBindJSON(&req); err != nil {
+			log.Printf("Bind JSON error: %v", err)
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error":   "Invalid request",
 				"summary": "Could you share a bit more? I'm here to listen.",
@@ -74,7 +91,7 @@ func main() {
 	// Start server
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8081"
 	}
 
 	log.Printf("Starting Gentle Story Summarizer on port %s", port)
@@ -85,11 +102,15 @@ func main() {
 func generateSummary(text string) (*SummarizationResponse, error) {
 	ctx := context.Background()
 
-	// Get API key from environment
+	// Securely retrieve API key
 	apiKey := os.Getenv("GEMINI_API_KEY")
 	if apiKey == "" {
-		return nil, fmt.Errorf("GEMINI_API_KEY is not set")
+		log.Fatal("GEMINI_API_KEY is not set. Please set it in .env or as an environment variable.")
 	}
+
+	// Mask the API key in logs
+	maskedApiKey := apiKey[:5] + "..." + apiKey[len(apiKey)-5:]
+	log.Printf("Using Gemini API Key (masked): %s", maskedApiKey)
 
 	// Create Gemini client
 	client, err := genai.NewClient(ctx, option.WithAPIKey(apiKey))
@@ -99,7 +120,7 @@ func generateSummary(text string) (*SummarizationResponse, error) {
 	defer client.Close()
 
 	// Select model
-	model := client.GenerativeModel("gemini-2.0-pro-exp-02-05")
+	model := client.GenerativeModel("gemini-pro")
 	model.SetTemperature(0.7)
 
 	// Compassionate summarization prompt

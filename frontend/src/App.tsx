@@ -127,7 +127,7 @@ const App: React.FC = () => {
     setAnimatedSummary('');
 
     try {
-      const response = await axios.post<SummaryResponse>('http://localhost:8080/api/summarize', { text });
+      const response = await axios.post<SummaryResponse>('http://localhost:8081/api/summarize', { text });
       setSummary({
         ...response.data,
         triggerWarnings: response.data.triggerWarnings || [],
@@ -145,6 +145,7 @@ const App: React.FC = () => {
 
   return (
     <Container 
+      role="main"
       maxWidth={false} 
       sx={{ 
         minHeight: '100vh', 
