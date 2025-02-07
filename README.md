@@ -82,7 +82,7 @@ pkill -f "npm start"
 Please read our contribution guidelines before submitting pull requests.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the [MIT License](https://github.com/Gravity-Blog/gentle-story-summ/blob/main/LICENSE)
 
 ## Related Links
 - [Gemini App Experimental Models Blog Post](https://blog.google/feed/gemini-app-experimental-models/)
