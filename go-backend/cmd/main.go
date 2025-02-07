@@ -108,9 +108,8 @@ func generateSummary(text string) (*SummarizationResponse, error) {
 		log.Fatal("GEMINI_API_KEY is not set. Please set it in .env or as an environment variable.")
 	}
 
-	// Mask the API key in logs
-	maskedApiKey := apiKey[:5] + "..." + apiKey[len(apiKey)-5:]
-	log.Printf("Using Gemini API Key (masked): %s", maskedApiKey)
+	// Log a generic message indicating the use of the API key
+	log.Println("Using Gemini API Key")
 
 	// Create Gemini client
 	client, err := genai.NewClient(ctx, option.WithAPIKey(apiKey))
